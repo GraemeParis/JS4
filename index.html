@@ -12,6 +12,7 @@
         <label for="input">To-Do</label>
         <input type="text" id="todo" />
         <button id="add">Add</button>
+        <button id="sortByDone">Sort By Done</button>
       </div>
 
       <p id="error"></p>
@@ -36,6 +37,27 @@
   const todosRef = document.getElementById("todos");
   const todoRef = document.getElementById("todo");
   const addRef = document.getElementById("add");
+  const toggleDone = (id) => {
+    const index = todos.findIndex((todo) => {
+      return todo.id === id;
+    });
+    todos[index].done = !todos[index].done;
+  };
+  const sortByDoneRef = document.getElementById("sortByDone");
+
+  sortByDoneRef.addEventListener("click", () => {
+    todos.sort((a, b) => {
+      return a.done - b.done;
+    });
+
+    updateTodos();
+  });
+
+  // Listen for a click on a to-do
+  todosRef.addEventListener("click", (event) => {
+    toggleDone(Number(event.target.id));
+    updateTodos();
+  });
 
   //Listens for todo input
   todoRef.addEventListener("input", (event) => {
