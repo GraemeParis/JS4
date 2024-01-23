@@ -3,33 +3,77 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>To-Do</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <button id="add">Add</button>
-    <p id="output">0</p>
-    <button id="minus">Minus</button>
+    <div class="container">
+      <div class="controls">
+        <label for="input">To-Do</label>
+        <input type="text" id="todo" />
+        <button id="add">Add</button>
+      </div>
+
+      <p id="error"></p>
+
+      <div>
+        <ul id="todos"></ul>
+      </div>
+    </div>
   </body>
 </html>
 <script>
+  //state
+  const todos = [
+    { id: 1, title: "Clean Car", done: false },
+    { id: 2, title: "Clean bike", done: false },
+    { id: 3, title: "Buy cheese", done: true },
+    { id: 4, title: "Teach students", done: false },
+  ];
+  let todo = "";
+
+  //Dom Refs
+  const todosRef = document.getElementById("todos");
+  const todoRef = document.getElementById("todo");
   const addRef = document.getElementById("add");
-  const minusRef = document.getElementById("minus");
-  const outputRef = document.getElementById("output");
 
-  addRef.addEventListener("click", (event) => {
-    if (outputRef.innerHTML == 10) {
-      // This part is a defensive check to prevent you from going above 10 and provides an alert message when you try to.
-      alert("You are greedy!");
-      return;
-    }
-    outputRef.innerHTML = Number(outputRef.innerHTML) + 1;
+  //Listens for todo input
+  todoRef.addEventListener("input", (event) => {
+    todo = event.target.checked;
   });
 
-  minusRef.addEventListener("click", (event) => {
-    if (outputRef.innerHTML == 0) {
-      // this is the same for stopping you from going to below 0.
-      return;
-    }
-    outputRef.innerHTML = Number(outputRef.innerHTML) - 1;
+  //Listens for add button
+  addRef.addEventListener("click", () => {
+    todos.push({
+      id: Math.random(),
+      title: todo,
+      done: false,
+    });
+    updateTodos();
   });
+
+  //validate user input
+  if (todo.length < 1) {
+    errorRef.innerHTML = "Input too short";
+    return;
+  }
+
+  // Check no duplicates
+  const duplicate = todos.some((item) => {
+    return item.title === todo;
+  });
+  if (duplicate) {
+    errorRef.innerHTML = "Item already exists";
+    return;
+  }
+
+  // UPdates the todos in the DOM
+  const updateTodos = () => {
+    const html = todos.map((todo) => {
+      return `<li class="${todo.done ? "done" : "undone"}">${todo.title}</li>`;
+    });
+    todosRef.innerHTML = html.join("");
+  };
+
+  updateTodos();
 </script>
