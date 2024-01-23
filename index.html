@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="add">Add</button>
+    <p id="output">0</p>
+    <button id="minus">Minus</button>
+  </body>
+</html>
+<script>
+  const addRef = document.getElementById("add");
+  const minusRef = document.getElementById("minus");
+  const outputRef = document.getElementById("output");
+
+  addRef.addEventListener("click", (event) => {
+    if (outputRef.innerHTML == 10) {
+      // This part is a defensive check to prevent you from going above 10 and provides an alert message when you try to.
+      alert("You are greedy!");
+      return;
+    }
+    outputRef.innerHTML = Number(outputRef.innerHTML) + 1;
+  });
+
+  minusRef.addEventListener("click", (event) => {
+    if (outputRef.innerHTML == 0) {
+      // this is the same for stopping you from going to below 0.
+      return;
+    }
+    outputRef.innerHTML = Number(outputRef.innerHTML) - 1;
+  });
+</script>
